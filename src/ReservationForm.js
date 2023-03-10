@@ -89,7 +89,7 @@ const ReservationForm = () => {
     setSelectedSeat(null);
     setFormName('');
     setFormPhone('');
-    // navigate("/thankyou")
+    navigate("/thankyou")
   };
   // React.useEffect(() => {
   //   var modal = document.getElementById("myModal");
