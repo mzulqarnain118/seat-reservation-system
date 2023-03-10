@@ -48,11 +48,17 @@
   color: white;
   cursor: not-allowed;
 }
-
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding: 300px; /* Location of the box */
+  left: 400;
+  align-self: center;
+  overflow: auto; /* Enable scroll if needed */
+}
 .reservation-form {
-  margin-top: 20px;
+  margin-top: 200;
   border: 1px solid #111311;
-padding: 10px;
 border-radius: 5px;
 background-color: #f5f5f5;
 }

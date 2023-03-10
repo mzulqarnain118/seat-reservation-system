@@ -72,7 +72,6 @@ const ReservationForm = () => {
   const [selectedSeat, setSelectedSeat] = useState(null);
   const [formName, setFormName] = useState('');
   const [formPhone, setFormPhone] = useState('');
-
   const handleSeatSelect = (seat) => {
     setSelectedSeat(seat);
   };
@@ -90,9 +89,12 @@ const ReservationForm = () => {
     setSelectedSeat(null);
     setFormName('');
     setFormPhone('');
-    navigate("/thankyou")
+    // navigate("/thankyou")
   };
-
+  // React.useEffect(() => {
+  //   var modal = document.getElementById("myModal");
+  //   selectedSeat ? modal.style.display = "block" : modal.style.display = "none"
+  // }, [])
   return (
     <div className="App">
       <h1>Seat Reservation System</h1>
@@ -105,8 +107,8 @@ const ReservationForm = () => {
         </form>
       </div>
       {selectedSeat && (
-        <div className="reservation-form">
-          <h2>Selected Seat: {selectedSeat.row}{selectedSeat.number}</h2>
+        <div className="reservation-form modal">
+          <h2>Selected Seat: {selectedSeat?.row}{selectedSeat?.number}</h2>
           <form onSubmit={handleFormSubmit}>
             <label htmlFor="name-input">Name:</label>
             <input
