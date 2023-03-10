@@ -7,11 +7,24 @@
 .seat-row {
   display: flex;
   margin: 10px 0;
+  justify-content: center;
+  align-items: center;
+    flex-wrap: wrap
 }
 
+.App {
+  display: flex;
+  align-items: center;
+  flex-direction:column ;
+}
+.row-align {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .seat {
-  width: 50px;
-  height: 50px;
+  width: 25px;
+  height: 25px;
   margin: 5px;
   display: flex;
   align-items: center;
@@ -26,7 +39,10 @@
   background-color: #6db65b;
   color: white;
 }
-
+.seat.empty {
+  background-color: white;
+  color: white;
+}
 .seat.unavailable {
   background-color: #f44336;
   color: white;

@@ -1,9 +1,10 @@
 import React from 'react';
 
-const Seat = ({ number, available, onClick }) => {
+const Seat = ({ number, available, empty, onClick }) => {
+  
   return (
     <div
-      className={`seat ${available ? 'available' : 'unavailable'}`}
+      className={`seat ${empty?'empty':available ? 'available' : 'unavailable'}`}
       onClick={available ? onClick : null}
     >
       {number}
