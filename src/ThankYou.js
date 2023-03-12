@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const ThankYou = ({ setEnableThankYou }) => {
   const handleDownloadJSON = () => {
-    const data =localStorage.getItem('seatReservationData');
+    const data = localStorage.getItem('seatReservationDownloadData');
     const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');

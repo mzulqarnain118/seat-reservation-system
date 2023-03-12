@@ -135,7 +135,7 @@ const SeatMap = () => {
   const [enableThankYou, setEnableThankYou] = useState(false);
   const rows = [...Array(16).keys()].reverse();
   const seatsInRow = [...Array(30).keys()].reverse();
-  let id=null
+  let id = null
   const [seats, setSeats] = useState(() => {
     const data = JSON.parse(localStorage.getItem('seatReservationData')) || {};
     return Array(16).fill().map((_, row) => Array(30).fill().map((_, number) => ({
@@ -153,7 +153,7 @@ const SeatMap = () => {
   };
 
   const handleFormSubmit = (data1) => {
-    id = id + 1;
+    id+=1
     const { name, phone,row,number } = data1;
     console.log(data1)
     const newSeats = [...seats];
@@ -164,8 +164,14 @@ const SeatMap = () => {
 
     // Save data to localStorage
     const data = JSON.parse(localStorage.getItem('seatReservationData')) || {};
-    data[`${id} (${selectedSeat.row} - ${selectedSeat.number})`] = { name, phone };
+    data[selectedSeat.row] = data[selectedSeat.row] || {};
+    data[selectedSeat.row][selectedSeat.number] = { name, phone };
     localStorage.setItem('seatReservationData', JSON.stringify(data));
+    // Save data to localStorage
+    const downloadData = JSON.parse(localStorage.getItem('seatReservationDownloadData')) || {};
+    downloadData[`${id} (${selectedSeat.row} - ${selectedSeat.number})`] = { name, phone };
+    localStorage.setItem('seatReservationDownloadData', JSON.stringify(downloadData));
+
   };
 
 
