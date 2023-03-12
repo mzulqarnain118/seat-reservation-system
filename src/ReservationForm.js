@@ -134,11 +134,11 @@ import ThankYou from './ThankYou';
 const SeatMap = () => {
   const [enableThankYou, setEnableThankYou] = useState(false);
   const rows = [...Array(16).keys()].reverse();
-  const seatsInRow = [...Array(30).keys()].reverse();
+  const seatsInRow = [...Array(38).keys()].reverse();
   let id = null
   const [seats, setSeats] = useState(() => {
     const data = JSON.parse(localStorage.getItem('seatReservationData')) || {};
-    return Array(16).fill().map((_, row) => Array(30).fill().map((_, number) => ({
+    return Array(16).fill().map((_, row) => Array(38).fill().map((_, number) => ({
       available: !data[row]?.[number],
       name: data[row]?.[number]?.name || '',
       phone: data[row]?.[number]?.phone || '',
@@ -188,12 +188,13 @@ console.log('====================================');
             <div className="row" key={row}>
               <div className="rowStyle">{row}</div>
               {seatsInRow.map(number => (
-                <div
-                  className={`seat ${seats[row][number].available ? 'available' : 'unavailable'} ${selectedSeat.row === row && selectedSeat.number === number ? 'selected' : ''}`}
+                row === 15 && number > 24 || row === 14 && number > 32 || row === 8 && number > 36 || row === 7 && number > 35 || row === 6 && number > 34 ||
+                  row === 5 && number > 31 || row === 4 && number > 29 || row === 3 && number > 26 || row === 2 && number > 24 || row === 1 && number > 21 || row === 0 && number > 14 ? null : <div
+                    className={` ${row === 14 && number === 16 ? 'gap15' ? row === 15 && [8, 12, 16].includes(number) : 'gap14':null} seat ${seats[row][number].available ? 'available' : 'unavailable'} ${selectedSeat.row === row && selectedSeat.number === number ? 'selected' : ''}`}
                   key={number}
                   onClick={() => handleSeatClick(row, number)}
                 >
-                  {seats[row][number].available ?number:0}
+                    {number}
                 </div>
               ))}
               <div className="rowStyle">{row}</div>

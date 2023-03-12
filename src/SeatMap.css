@@ -15,14 +15,15 @@
 }
 
 .seat {
-  width: 38px;
-  height: 38px;
+  width: 25px;
+  height: 25px;
   margin: 5px;
-  border-radius: 50%;
+  border-radius: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 16px;
+  border: 1px solid black;
   font-weight: bold;
   background-color: #f2f2f2;
   cursor: pointer;
@@ -30,22 +31,29 @@
 }
 
 .seat.available {
-  background-color: #84fc84;
+  background-color: #fafcfa;
 }
 .rowStyle {
-    width: 50px;
-  height: 50px;
+    width: 30px;
+  height: 30px;
   margin: 5px;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 16px;
-  color:white;
+    border: 1px solid black;
+  color:rgb(248, 245, 245);
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  background-color: #0a1c3f;
+  background-color: #0d0d0e;
+}
+.gap15{
+  margin-left: 188px;
+}
+.gap14{
+  margin-left: 69px;
 }
 .seat.unavailable {
   background-color: #fc1313;
@@ -127,7 +135,7 @@ input {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 h2 {
