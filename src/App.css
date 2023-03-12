@@ -23,9 +23,6 @@
   align-items: center;
 }
 .seat {
-  width: 25px;
-  height: 25px;
-  margin: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,6 +31,25 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+@media only screen and (max-width: 768px) {
+  /* For tablet and mobile devices */
+  .seat {
+    width: 50px;
+    height: 50px;
+    margin: 10px 0;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  /* For laptop and desktop devices */
+  .seat {
+    width: 35px;
+    height: 35px;
+    margin: 5px;
+  }
+}
+
 
 .seat.available {
   background-color: #6db65b;
