@@ -2,7 +2,61 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const ThankYou = ({setEnableThankYou }) => {
+const ThankYou = ({ setEnableThankYou }) => {
+  const handleDownloadJSON = () => {
+    const data =localStorage.getItem('seatReservationData');
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'seat_data.json');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const downloadDataCSV = () => {
+    const data = JSON.parse(localStorage.getItem('seatReservationData'));
+      const csvData = "data:text/csv;charset=utf-8,"
+        + Object.keys(data).join(",")
+        + "\n"
+        + data.map(d => Object.values(d).join(",")).join("\n");
+
+      const encodedUri = encodeURI(csvData);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "seat_data.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    
+  };
+
+  const downloadDataTXT = () => {
+    const data = JSON.parse(localStorage.getItem('seatReservationData'));
+
+    if (data && data.length > 0) {
+      const textData = data.map((row, i) => {
+        const rowNumber = i + 16; // Add 16 to get the row number
+        const seatData = row.map((seat, j) => {
+          const seatNumber = j + 1; // Add 1 to get the seat number
+          const name = seat.name ? seat.name : '-';
+          const phone = seat.phone ? seat.phone : '-';
+          return `${rowNumber}-${seatNumber}: ${name} ${phone}`;
+        }).join('\n');
+        return seatData;
+      }).join('\n\n');
+
+      const encodedUri = encodeURI(textData);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "seat_data.txt");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   return (
     <div className="thank-you-container">
       <h2>Thank you for your reservation!</h2>
@@ -15,7 +69,10 @@ const ThankYou = ({setEnableThankYou }) => {
         </form>
       </div>
       {/* <Link to="/"> */}
-        <button className="back-button" onClick={() => setEnableThankYou(false)}>Back to Seats</button>
+      <button className="back-button" onClick={() => setEnableThankYou(false)}>Back to Seats</button>
+      <button onClick={handleDownloadJSON}>Download Data IN JSON</button>
+      {/* <button onClick={downloadDataCSV}>Download Data IN CSV</button> */}
+
       {/* </Link> */}
     </div>
   );

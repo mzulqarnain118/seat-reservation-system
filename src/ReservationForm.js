@@ -135,8 +135,15 @@ const SeatMap = () => {
   const [enableThankYou, setEnableThankYou] = useState(false);
   const rows = [...Array(16).keys()].reverse();
   const seatsInRow = [...Array(30).keys()].reverse();
-
-  const [seats, setSeats] = useState(Array(16).fill().map(() => Array(38).fill({ available: true, name: '', phone: '' })));
+  let id=null
+  const [seats, setSeats] = useState(() => {
+    const data = JSON.parse(localStorage.getItem('seatReservationData')) || {};
+    return Array(16).fill().map((_, row) => Array(30).fill().map((_, number) => ({
+      available: !data[row]?.[number],
+      name: data[row]?.[number]?.name || '',
+      phone: data[row]?.[number]?.phone || '',
+    })));
+  });
   const [selectedSeat, setSelectedSeat] = useState({ row: null, number: null });
 
   const handleSeatClick = (row, number) => {
@@ -145,14 +152,26 @@ const SeatMap = () => {
     }
   };
 
-  const handleFormSubmit = (name, phone) => {
+  const handleFormSubmit = (data1) => {
+    id = id + 1;
+    const { name, phone,row,number } = data1;
+    console.log(data1)
     const newSeats = [...seats];
-    newSeats[selectedSeat.row][selectedSeat.number] = { available: false, name, phone };
+    newSeats[selectedSeat.row][selectedSeat.number] = { available: false, name, phone, row, number };
     setSeats(newSeats);
     setSelectedSeat({ row: null, number: null });
-    setEnableThankYou(true)
+    setEnableThankYou(true);
+
+    // Save data to localStorage
+    const data = JSON.parse(localStorage.getItem('seatReservationData')) || {};
+    data[`${id} (${selectedSeat.row} - ${selectedSeat.number})`] = { name, phone };
+    localStorage.setItem('seatReservationData', JSON.stringify(data));
   };
 
+
+console.log('====================================');
+console.log(seats, selectedSeat);
+console.log('====================================');
   return (<>
     {enableThankYou ? <ThankYou setEnableThankYou={setEnableThankYou} />
       : <div className="seatmap-container">
@@ -161,22 +180,22 @@ const SeatMap = () => {
         <div >
           {rows.map(row => (
             <div className="row" key={row}>
-              <div className="rowStyle">{row + 1}</div>
+              <div className="rowStyle">{row}</div>
               {seatsInRow.map(number => (
                 <div
                   className={`seat ${seats[row][number].available ? 'available' : 'unavailable'} ${selectedSeat.row === row && selectedSeat.number === number ? 'selected' : ''}`}
                   key={number}
                   onClick={() => handleSeatClick(row, number)}
                 >
-                  {number + 1}
+                  {seats[row][number].available ?number:0}
                 </div>
               ))}
-              <div className="rowStyle">{row + 1}</div>
+              <div className="rowStyle">{row}</div>
             </div>
           ))}
         </div>
         {selectedSeat.row !== null && selectedSeat.number !== null && (
-          <ReservationForm onSubmit={handleFormSubmit} row={selectedSeat.row} number={selectedSeat.number} />
+          <ReservationForm onSubmit={handleFormSubmit} row={selectedSeat.row} number={selectedSeat.number} setSelectedSeat={setSelectedSeat} />
         )}
        </div> }
   </>
@@ -184,7 +203,7 @@ const SeatMap = () => {
   );
 };
 
-const ReservationForm = ({ row, number, onSubmit }) => {
+const ReservationForm = ({ row, number, onSubmit, setSelectedSeat }) => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
 
@@ -204,7 +223,8 @@ const ReservationForm = ({ row, number, onSubmit }) => {
 
   return (
     <div className="reservation-form-container">
-      <h2>Reserve Seat {row+1}-{number+1}</h2>
+      <div className="close-button" onClick={() => {setSelectedSeat({ row: null, number: null })}}>X</div>
+      <h2>Reserve Seat {row}-{number}</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name:</label>
@@ -217,6 +237,7 @@ const ReservationForm = ({ row, number, onSubmit }) => {
         <button type="submit">Submit</button>
       </form>
     </div>
+
   );
 };
 
