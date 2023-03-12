@@ -73,7 +73,7 @@ const ThankYou = ({ setEnableThankYou }) => {
       <DonationForm />
       <div>
         <button  onClick={() => setEnableThankYou(false)}>Back to Seats</button>
-        <button style={{marginLeft:10}} onClick={handleDownloadJSON}>Download Data</button>
+        {/* <button style={{marginLeft:10}} onClick={handleDownloadJSON}>Download Data</button> */}
       </div>
       
       {/* <button onClick={downloadDataCSV}>Download Data IN CSV</button> */}
