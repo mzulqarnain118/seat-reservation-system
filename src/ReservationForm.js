@@ -133,6 +133,7 @@ import ThankYou from './ThankYou';
 
 const SeatMap = () => {
   const [enableThankYou, setEnableThankYou] = useState(false);
+
   const rows = [...Array(16).keys()].reverse();
   const seatsInRow = [...Array(38).keys()].reverse();
   let id = null
@@ -153,7 +154,9 @@ const SeatMap = () => {
   };
 
   const handleFormSubmit = (data1) => {
-    id+=1
+    id += 1
+    localStorage.setItem('currentBooking', JSON.stringify(data1));
+
     const { name, phone,row,number } = data1;
     console.log(data1)
     const newSeats = [...seats];
@@ -179,7 +182,7 @@ console.log('====================================');
 console.log(seats, selectedSeat);
 console.log('====================================');
   return (<>
-    {enableThankYou ? <ThankYou setEnableThankYou={setEnableThankYou} />
+    {enableThankYou ? <ThankYou setEnableThankYou={setEnableThankYou}  />
       : <div className="seatmap-container">
         <h1 >Seat Reservation System</h1>
           

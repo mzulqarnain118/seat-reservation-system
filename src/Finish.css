@@ -1,0 +1,46 @@
+.thank-you-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7f7f7;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+}
+
+.thank-you-title {
+  margin-top: 0;
+}
+
+.thank-you-message {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.booking-details {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  align-items: center;
+}
+
+.booking-detail {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 1rem;
+}
+
+.booking-label {
+  font-size: 1.2rem;
+  margin-right: 1rem;
+}
+
+.booking-value {
+  font-size: 1.2rem;
+  font-weight: bold;
+}

@@ -1,9 +1,11 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import DonationForm from './Donate';
+import Finish from './Finish';
 
 const ThankYou = ({ setEnableThankYou }) => {
+  const [finish, setFinish] = useState(false);
   const handleDownloadJSON = () => {
     const data = localStorage.getItem('seatReservationDownloadData');
     const blob = new Blob([data], { type: 'application/json' });
@@ -57,9 +59,10 @@ const ThankYou = ({ setEnableThankYou }) => {
       document.body.removeChild(link);
     }
   };
+  return (<>
 
-  return (
-    <div className="thank-you-container">
+    {finish ? <> <Finish setEnableThankYou={setEnableThankYou} />
+</>: <div className="thank-you-container">
       <h2>Thank you to be with us.</h2>
       <p>If you like to donate. You have below options.</p>
       {/* <div style={{ width: "120px", }}>
@@ -72,14 +75,17 @@ const ThankYou = ({ setEnableThankYou }) => {
       {/* <Link to="/"> */}
       <DonationForm />
       <div>
-        <button  onClick={() => setEnableThankYou(false)}>Back to Seats</button>
+        <button onClick={() => setFinish(true)}>Finish</button>
+
         {/* <button style={{marginLeft:10}} onClick={handleDownloadJSON}>Download Data</button> */}
       </div>
-      
+
       {/* <button onClick={downloadDataCSV}>Download Data IN CSV</button> */}
 
       {/* </Link> */}
-    </div>
+    </div>}
+  </>
+ 
   );
 };
 
