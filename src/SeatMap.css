@@ -17,7 +17,6 @@
 .seat {
   width: 25px;
   height: 25px;
-  margin: 5px;
   border-radius: 10%;
   display: flex;
   justify-content: center;
@@ -50,13 +49,19 @@
   background-color: #0d0d0e;
 }
 .gap15{
-  margin-left: 188px;
+  margin-left: 110px;
+}
+.gap11{
+  margin-left: 163px;
 }
 .gap14{
-  margin-left: 69px;
+  margin-left: 50px;
+}
+.gap12{
+  margin-left: 80px;
 }
 .gap13{
-  margin-left: 40px;
+  margin-left: 30px;
 }
 .seat.unavailable {
   background-color: #fc1313;

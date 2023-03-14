@@ -227,13 +227,13 @@ console.log('====================================');
             <div className="row" key={row}>
               <div className="rowStyle">{row+1}</div>
               {seatsInRow.map(number => (
-                row === 15 && number > 24 || row === 14 && number > 32 || row === 8 && number > 36 || row === 7 && number > 35 || row === 6 && number > 34 ||
-                row === 5 && number > 31 || row === 4 && number > 29 || row === 3 && number > 26 || row === 2 && number > 24 || row === 1 && number > 21 || row === 0 && number > 14 || number === 0? null : <div
-                    className={`${row === 15 && number === 24 && 'gap13'} ${row === 15 && number === 20 && 'gap15'} ${row === 14 && number === 15 && 'gap15'}  ${row === 15 && [8, 12, 16,4].includes(number) && 'gap14'} seat ${seats[row][number].available ? 'available' : 'unavailable'} ${selectedSeat.row === row && selectedSeat.number === number ? 'selected' : ''}`}
+                row === 15 && number > 23 || row === 14 && number > 31 || row === 8 && number > 35 || row === 7 && number > 34 || row === 6 && number > 33 ||
+                row === 5 && number > 30 || row === 4 && number > 28 || row === 3 && number > 25 || row === 2 && number > 23 || row === 1 && number > 20 || row === 0 && number > 13 ?null : <div
+                    className={`${row === 15 && number === 3 && 'gap12'} ${row === 15 && number === 23 && 'gap13'} ${row === 15 && number === 19 && 'gap15'} ${row === 14 && number === 14 && 'gap11'}  ${row === 15 && [7, 11, 15].includes(number) && 'gap14'} seat ${seats[row][number].available ? 'available' : 'unavailable'} ${selectedSeat.row === row && selectedSeat.number === number ? 'selected' : ''}`}
                   key={number}
                   onClick={() => handleSeatClick(row, number)}
                 >
-                    {number}
+                    {number+1}
                 </div>
               ))}
               <div className="rowStyle">{row+1}</div>
