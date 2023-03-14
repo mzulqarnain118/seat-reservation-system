@@ -129,22 +129,45 @@
 
 // export default ReservationForm;
 import React, { useState } from 'react';
+import { ApiCallGet, ApiCallPost } from './ApiCall';
 import ThankYou from './ThankYou';
 
 const SeatMap = () => {
   const [enableThankYou, setEnableThankYou] = useState(false);
-
-  const rows = [...Array(16).keys()].reverse();
-  const seatsInRow = [...Array(38).keys()].reverse();
+  const rows = [...Array(16).keys()].map(i => i).reverse();
+  const seatsInRow = [...Array(38).keys()].map(i => i).reverse();
+  const [tableUpdated, setTableUpdated] = useState(0);
+  const { response, error, loading } = ApiCallGet('/seats', { getUpdatedData: tableUpdated });
+  console.log('====================================');
+  // const data={}
+  // response?.forEach(element => {
+  //   data[element.row] = data[element.row] || {};
+  //   data[element.row][element.seat] = { name: element.name, phone:element.phone };
+  // });
+  // const filterData = { 15: [], 14: [], 13: [], 12: [], 11: [], 10: [], 9: [], 8: [], 7: [], 6: [], 5: [], 4: [], 3: [], 2: [], 1: [] }
+  // response?.map(item => filterData[item.row].push(item.seat))
+  // console.log(response, "IN COMPONENT", filterData, );
+  console.log('====================================');
   let id = null
+  
   const [seats, setSeats] = useState(() => {
-    const data = JSON.parse(localStorage.getItem('seatReservationData')) || {};
-    return Array(16).fill().map((_, row) => Array(38).fill().map((_, number) => ({
-      available: !data[row]?.[number],
-      name: data[row]?.[number]?.name || '',
-      phone: data[row]?.[number]?.phone || '',
-    })));
+    return rows.map((row) =>
+      seatsInRow.map((number) => ({
+        available: true,
+        name: "",
+        phone: "",
+      }))
+    );
   });
+
+  React.useEffect(() => {
+    const updatedSeats = [...seats];
+    response?.forEach((item) => {
+      const { row, seat, name, phone, available } = item;
+      updatedSeats[row][seat] = { name, phone, available };
+    });
+    setSeats(updatedSeats);
+  }, [response]);
   const [selectedSeat, setSelectedSeat] = useState({ row: null, number: null });
 
   const handleSeatClick = (row, number) => {
@@ -160,7 +183,7 @@ const SeatMap = () => {
     const { name, phone,row,number } = data1;
     console.log(data1)
     const newSeats = [...seats];
-    newSeats[selectedSeat.row][selectedSeat.number] = { available: false, name, phone, row, number };
+    newSeats[selectedSeat.row][selectedSeat.number] = { available: false, name, phone, row: row , number: number  };
     setSeats(newSeats);
     setSelectedSeat({ row: null, number: null });
     setEnableThankYou(true);
@@ -172,13 +195,26 @@ const SeatMap = () => {
     localStorage.setItem('seatReservationData', JSON.stringify(data));
     // Save data to localStorage
     const downloadData = JSON.parse(localStorage.getItem('seatReservationDownloadData')) || {};
-    downloadData[`${id} (${selectedSeat.row} - ${selectedSeat.number})`] = { name, phone };
+    downloadData[`${id} (${selectedSeat.row +1} - ${selectedSeat.number +1})`] = { name, phone };
     localStorage.setItem('seatReservationDownloadData', JSON.stringify(downloadData));
-
+    handleSubmitPOST({ available: false, name, phone, row: row, seat: number })
   };
 
+  const handleSubmitPOST = async (screenData) => {
+    try {
+      console.log("==========================", screenData)
+      const response = await ApiCallPost(`/seats`, screenData);
 
-console.log('====================================');
+      if (response?.status === 201) {
+        console.log(response, "result")
+        setTableUpdated((old) => old + 1);
+      }
+    } catch (error) {
+      console.log(error, "error")
+    }
+  }
+
+  console.log('====================================');
 console.log(seats, selectedSeat);
 console.log('====================================');
   return (<>
@@ -189,18 +225,18 @@ console.log('====================================');
         <div >
           {rows.map(row => (
             <div className="row" key={row}>
-              <div className="rowStyle">{row}</div>
+              <div className="rowStyle">{row+1}</div>
               {seatsInRow.map(number => (
                 row === 15 && number > 24 || row === 14 && number > 32 || row === 8 && number > 36 || row === 7 && number > 35 || row === 6 && number > 34 ||
-                  row === 5 && number > 31 || row === 4 && number > 29 || row === 3 && number > 26 || row === 2 && number > 24 || row === 1 && number > 21 || row === 0 && number > 14 ? null : <div
-                    className={` ${row === 14 && number === 16 ? 'gap15' ? row === 15 && [8, 12, 16].includes(number) : 'gap14':null} seat ${seats[row][number].available ? 'available' : 'unavailable'} ${selectedSeat.row === row && selectedSeat.number === number ? 'selected' : ''}`}
+                row === 5 && number > 31 || row === 4 && number > 29 || row === 3 && number > 26 || row === 2 && number > 24 || row === 1 && number > 21 || row === 0 && number > 14 || number === 0? null : <div
+                    className={`${row === 15 && number === 24 && 'gap13'} ${row === 15 && number === 20 && 'gap15'} ${row === 14 && number === 15 && 'gap15'}  ${row === 15 && [8, 12, 16,4].includes(number) && 'gap14'} seat ${seats[row][number].available ? 'available' : 'unavailable'} ${selectedSeat.row === row && selectedSeat.number === number ? 'selected' : ''}`}
                   key={number}
                   onClick={() => handleSeatClick(row, number)}
                 >
                     {number}
                 </div>
               ))}
-              <div className="rowStyle">{row}</div>
+              <div className="rowStyle">{row+1}</div>
             </div>
           ))}
         </div>
@@ -234,7 +270,7 @@ const ReservationForm = ({ row, number, onSubmit, setSelectedSeat }) => {
   return (
     <div className="reservation-form-container">
       <div className="close-button" onClick={() => {setSelectedSeat({ row: null, number: null })}}>X</div>
-      <h2>Reserve Seat {row}-{number}</h2>
+      <h2>Reserve Seat {row+1}-{number}</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name:</label>

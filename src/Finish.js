@@ -20,7 +20,7 @@ function Finish({ setEnableThankYou }) {
         </div>
         <div className="booking-detail">
           <p className="booking-label">Row:</p>
-          <p className="booking-value">{row}</p>
+          <p className="booking-value">{row+1}</p>
         </div>
         <div className="booking-detail">
           <p className="booking-label">Seat:</p>
